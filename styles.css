@@ -1,0 +1,473 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    background: radial-gradient(circle at top, #2b2b4d, #090909);
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+}
+
+/* --- TELA INICIAL --- */
+#home {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+h1 {
+    font-size: 50px;
+    letter-spacing: 6px;
+    text-shadow: 0 0 20px cyan;
+    text-transform: uppercase;
+}
+
+button {
+    padding: 12px 28px;
+    background: transparent;
+    border: 2px solid cyan;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: cyan;
+    color: black;
+    box-shadow: 0 0 20px cyan;
+}
+
+/* --- TELA DE CARREGAMENTO (ESCONDIDA) --- */
+#loading {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #090909;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 10;
+}
+
+.bar {
+    width: 300px;
+    height: 14px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid cyan;
+}
+
+#progress {
+    width: 0%;
+    height: 100%;
+    background: cyan;
+}
+
+/* --- JANELA DE REGISTRO (ESCONDIDA E CENTRALIZADA) --- */
+#register {
+    display: none; /* Garante que fique oculta até o carregamento terminar */
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.register-card {
+    width: min(400px, 90vw);
+    background: #141419;
+    border: 1px solid cyan;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    text-align: center;
+}
+
+.register-card h2 {
+    color: cyan;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.register-card input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    background: #1a1a26;
+    color: white;
+    font-size: 16px;
+    outline: none;
+}
+
+.register-card input:focus {
+    border-color: cyan;
+}
+
+.register-card button {
+    width: 100%;
+}
+
+/* --- HUB PRINCIPAL (ESCONDIDO) --- */
+#hub {
+    display: none;
+    flex-direction: column;
+    height: 100vh;
+    padding: 30px;
+    gap: 30px;
+}
+
+.hud-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 15px 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.player-avatar {
+    font-size: 26px;
+    background: #181824;
+    padding: 6px;
+    border-radius: 50%;
+    border: 1px solid cyan;
+}
+
+.xp-container {
+    width: 180px;
+}
+
+.xp-bar {
+    height: 10px;
+    background: #111;
+    border-radius: 5px;
+    overflow: hidden;
+    border: 1px solid #333;
+}
+
+#xpProgress {
+    width: 0%;
+    height: 100%;
+    background: #00ff88;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 25px;
+    max-width: 1000px;
+    margin: auto;
+    width: 100%;
+}
+
+.hub-card {
+    aspect-ratio: 1 / 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.hub-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 0 30px cyan;
+    border-color: cyan;
+}
+
+.card-icon {
+    font-size: 45px;
+}
+
+/* --- JANELAS FLUTUANTES --- */
+.window {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(500px, 90vw);
+    background: #141419;
+    border: 1px solid cyan;
+    border-radius: 16px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    z-index: 200;
+}
+
+.window.active {
+    display: block;
+}
+
+.window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #1c1c24;
+    border-bottom: 1px solid #2d2d3a;
+}
+
+.close-btn {
+    padding: 2px 10px;
+    background: #ff4d4d;
+    border: none;
+    color: white;
+    border-radius: 4px;
+}
+
+.window-content {
+    padding: 20px;
+}
+/* Quests / Projetos */
+.quest-item {
+    background: #1a1a26;
+    border: 1px solid #333;
+    padding: 15px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Masmorra & Combate */
+.dungeon-box {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.enemy-card {
+    background: #181824;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ff4d4d;
+}
+
+.enemy-icon {
+    font-size: 40px;
+    display: block;
+}
+
+.hp-bar {
+    height: 8px;
+    background: #333;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+#enemyHp {
+    height: 100%;
+    background: #ff4d4d;
+    transition: width 0.2s;
+}
+
+#combatLog {
+    font-size: 13px;
+    color: #aaa;
+    min-height: 40px;
+    background: #0d0d12;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.dungeon-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.dungeon-actions button {
+    flex: 1;
+    font-size: 13px;
+}
+/* --- ÁRVORE DE HABILIDADES --- */
+.skill-tree {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.skill-node {
+    background: #181824;
+    border: 2px solid #444;
+    border-radius: 12px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.skill-node.locked {
+    opacity: 0.5;
+    filter: grayscale(1);
+}
+
+.skill-node.unlocked {
+    opacity: 1;
+    filter: grayscale(0);
+    border-color: #00ff88;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+}
+
+.skill-node:hover:not(.unlocked) {
+    border-color: cyan;
+}
+
+.skill-icon {
+    font-size: 30px;
+}
+
+/* --- ANIMAÇÃO DE DANO FLUTUANTE --- */
+.damage-pop {
+    position: absolute;
+    color: #ff4d4d;
+    font-weight: bold;
+    font-size: 22px;
+    pointer-events: none;
+    animation: floatUp 0.8s ease-out forwards;
+    text-shadow: 0 0 8px #000;
+}
+
+@keyframes floatUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-30px) scale(1.3);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px) scale(0.8);
+    }
+}
+
+/* Efeito de impacto no Monstro */
+.hit-shake {
+    animation: shake 0.2s ease-in-out;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+    100% { transform: translateX(0); }
+}
+/* --- POP-UP DE CONQUISTAS --- */
+.achievement-toast {
+    position: fixed;
+    bottom: -100px;
+    right: 25px;
+    background: #141419;
+    border: 2px solid #00ff88;
+    box-shadow: 0 0 25px rgba(0, 255, 136, 0.4);
+    border-radius: 12px;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 999;
+    transition: bottom 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.achievement-toast.show {
+    bottom: 25px;
+}
+
+#achieveIcon { font-size: 28px; }
+#achieveTitle { color: #00ff88; font-size: 14px; display: block; }
+#achieveDesc { color: #aaa; font-size: 12px; }
+
+/* --- NPC GUIA ARRASTÁVEL --- */
+.npc-container {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 500;
+    cursor: grab;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    user-select: none;
+}
+
+.npc-container:active { cursor: grabbing; }
+
+.npc-avatar {
+    font-size: 48px;
+    filter: drop-shadow(0 0 10px cyan);
+    animation: floatNpc 3s ease-in-out infinite;
+}
+
+@keyframes floatNpc {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.npc-dialog {
+    background: #1c1c24;
+    border: 1px solid cyan;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-bottom: 6px;
+    max-width: 190px;
+    text-align: center;
+    box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+}
+
+/* --- MODO EXPLORAÇÃO E BOSS --- */
+.zone-selector {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.zone-selector button { flex: 1; font-size: 12px; padding: 8px; }
+
+.boss-mode {
+    border-color: #ff0055 !important;
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.4);
+}

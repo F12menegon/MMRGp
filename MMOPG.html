@@ -1,845 +1,242 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>MMORPG</title>
-
-    <style>
-
-     *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-        body{
-
-    margin:0;
-    height:100vh;
-
-    background:
-    radial-gradient(circle at top,#2b2b4d,#090909);
-
-    overflow:hidden;
-
-    font-family:Segoe UI;
-        }
-
-        #home{
-            height:100vh;
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            align-items:center;
-            gap:20px;
-        }
-
-        button{
-
-    width:250px;
-    height:70px;
-
-    background:transparent;
-
-    border:2px solid cyan;
-
-    color:white;
-
-    font-size:22px;
-
-    transition:.3s;
-
-}
-
-button:hover{
-
-    background:cyan;
-
-    color:black;
-
-    transform:scale(1.05);
-
-    box-shadow:0 0 40px cyan;
-
-}
-
-p{
-
-    font-size:20px;
-
-    color:white;
-
-    text-align:center;
-
-    width:400px;
-
-}
-
-h1{
-
-    font-size:80px;
-
-    letter-spacing:10px;
-
-    text-transform:uppercase;
-
-    color:white;
-
-}
-
-h2 {color: white;
-}
-
-h3{color: white;
-}
-
-.particle{
-
-    position:absolute;
-
-    width:4px;
-    height:4px;
-
-    background:white;
-
-    border-radius:50%;
-
-    animation:float 8s linear infinite;
-
-        }
-
-    @keyframes float{
-
-    from{
-
-        transform:translateY(100vh);
-
-    }
-
-    to{
-
-        transform:translateY(-10vh);
-
-    }
-
-}
-
-#background{
-
-    position:fixed;
-
-    inset:0;
-
-    background:url("background.png");
-
-    background-size:cover;
-
-    opacity:.2;
-
-    animation:move 25s linear infinite;
-
-}
-
-.window{
-    display:none;
-
-    position:fixed;
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%,-50%);
-
-    width:700px;
-    height:500px;
-
-    background:#161616;
-
-    border-radius:20px;
-}
-
-#register {
-    display: none;
-
-    position: fixed;
-    inset: 0;
-
-    justify-content: center;
-    align-items: center;
-
-    background: rgba(0,0,0,.65);
-    backdrop-filter: blur(8px);
-}
-
-.register-window{
-
-    width:500px;
-
-    background:#181818;
-
-    border:1px solid #3a3a3a;
-
-    border-radius:16px;
-
-    padding:35px;
-
-    box-shadow:0 0 50px rgba(0,255,255,.2);
-
-}
-
-.register-card{
-    width:420px;
-    padding:40px;
-
-    border-radius:20px;
-
-    background:rgba(255,255,255,.08);
-
-    backdrop-filter:blur(10px);
-}
-
-input{
-
-    width:100%;
-
-    margin-top:25px;
-
-    padding:15px;
-
-    border:none;
-
-    border-radius:12px;
-
-    outline:none;
-
-    font-size:18px;
-
-}
-
-#loading{
-
-    display:none;
-
-    position:fixed;
-
-    inset:0;
-
-    background:#090909;
-
-    color:white;
-
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-
-    gap:20px;
-
-}
-
-.bar{
-
-    width:450px;
-    height:20px;
-
-    background:#222;
-
-    border-radius:20px;
-
-    overflow:hidden;
-
-}
-
-#progress{
-
-    width:0%;
-
-    height:100%;
-
-    background:cyan;
-
-    transition: .105s;
-
-}
-
-#hub{
-
-    display:none;
-
-    width:100vw;
-    height:100vh;
-
-    justify-content:center;
-    align-content:center;
-
-    grid-template-columns:repeat(3,200px);
-
-    gap:40px;
-
-}
-
-.card{
-
-    width:170px;
-    height:170px;
-
-    background:rgba(255,255,255,.08);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    border-radius:20px;
-
-    backdrop-filter:blur(10px);
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    animation:float 6s ease-in-out infinite;
-
-}
-
-.card:nth-child(3){
-
-    left:70%;
-    top:35%;
-
-}
-
-.card:nth-child(4){
-
-    left:30%;
-    top:60%;
-
-}
-
-.card:nth-child(5){
-
-    left:65%;
-    top:70%;
-
-}
-
-.card:hover{
-
-    transform:scale(1.08);
-
-    box-shadow:0 0 25px cyan;
-
-}
-
-
-.hub-card{
-
-    width:200px;
-    height:200px;
-
-    background:rgba(255,255,255,.08);
-
-    border:1px solid rgba(255,255,255,.15);
-
-    border-radius:22px;
-
-    backdrop-filter:blur(12px);
-
-    display:flex;
-
-    flex-direction:column;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:15px;
-
-    color:white;
-
-    font-size:22px;
-
-    cursor:pointer;
-
-    transition:.3s;
-
-    box-shadow:0 0 25px rgba(0,0,0,.3);
-
-}
-
-.hub-card:hover{
-
-    transform:translateY(-8px) scale(1.05);
-
-    box-shadow:0 0 30px cyan;
-
-    border-color:cyan;
-
-}
-
-.hub-card span{
-
-    font-size:20px;
-
-}
-
-@keyframes float{
-
-    0%{
-
-        transform:translateY(0px);
-
-    }
-
-    50%{
-
-        transform:translateY(-12px);
-
-    }
-
-    100%{
-
-        transform:translateY(0px);
-
-    }
-
-}
-
-</style>
-
+    <link rel="stylesheet" href="styles.css">
+    <title>Project MMORPG</title>
 </head>
 <body>
 
+    <!-- 1. TELA INICIAL (Única visível ao carregar) -->
     <div id="home">
-
         <h1>PROJECT MMORPG</h1>
-
-        <p>Um mundo de projetos para explorar e criar.</p>
-
-        <button id="enter">
-            Iniciar Aventura
-        </button>
-
+        <p>Um mundo interativo de projetos para explorar.</p>
+        <button id="enter">Iniciar Aventura</button>
     </div>
 
-<div id="loading">
-
-      <h1>PROJECT MMORPG</h1>
-
-     <p id="loadingText">Inicializando...</p>
-
-      <div class="bar">
-
-        <div id="progress"></div>
-
-      </div>
-
-      <span id="percent">1%</span>
-
-</div>
-
-<div id="register">
-
-    <div class="register-window">
-
-        <h2>Criar Perfil</h2>
-
-        <h3>Digite seu nome para iniciar sua jornada.</h3>
-
-        <input
-            type="text"
-            id="playerName"
-            placeholder="Seu nome">
-
-        <button id="start">
-            Entrar na aventura
-        </button>
-    </div>
-</div>
-
-<div id="hub">
-
-    <div class=".hub-card">📁<span>Projetos</span></div>
-
-    <div class=".hub-card">👤<span>Sobre</span></div>
-
-    <div class=".hub-card">💻<span>Skills</span></div>
-
-    <div class=".hub-card">🏆<span>Conquistas</span></div>
-
-    <div class=".hub-card">📞<span>Contato</span></div>
-
-</div>
-
-<div id="windowProjects" class="window">
-
-    <div class="window-header">
-
-        <h2>📁 Projetos</h2>
-
-        <button id="closeProjects">✕</button>
-
+    <!-- 2. TELA DE CARREGAMENTO -->
+    <div id="loading">
+        <h1>PROJECT MMORPG</h1>
+        <p id="loadingText">Carregando servidor...</p>
+        <div class="bar">
+            <div id="progress"></div>
+        </div>
+        <span id="percent">0%</span>
     </div>
 
-    <div class="window-content">
+    <!-- 3. JANELA DE CRIAR PERFIL (Oculta por padrão) -->
+    <div id="register">
+        <div class="register-card">
+            <h2>Criar Perfil</h2>
+            <p class="subtitle">Digite seu nome para iniciar sua jornada.</p>
 
-        <div class="project">
+            <input type="text" id="playerName" placeholder="Seu nome..." autocomplete="off">
 
-            <h3>Sistema de Oficinas SENAI</h3>
+            <button id="start">Entrar na Aventura</button>
+        </div>
+    </div>
 
-            <p>Sistema para cadastro de usuários e gerenciamento de oficinas.</p>
-
-            <button>Ver mais</button>
-
+    <!-- 4. HUB PRINCIPAL DO JOGO -->
+    <div id="hub">
+        <div class="hud-bar">
+            <div class="player-info">
+                <span class="player-avatar">👤</span>
+                <div>
+                    <strong id="hudName">Jogador</strong>
+                    <div class="level-tag">Nv. <span id="playerLevel">1</span> - Dev Aprendiz</div>
+                </div>
+            </div>
+            <div class="xp-container">
+                <span>XP</span>
+                <div class="xp-bar">
+                    <div id="xpProgress"></div>
+                </div>
+            </div>
+            <div class="hub-card" data-target="windowDungeon">
+    <div class="card-icon">⚔️</div>
+    <span>Masmorra</span>
+</div>
         </div>
 
-        <div class="project">
+        <div class="cards-grid">
+            <div class="hub-card" data-target="windowProfile">
+                <div class="card-icon">👤</div>
+                <span>Perfil</span>
+            </div>
+            <div class="hub-card" data-target="windowProjects">
+                <div class="card-icon">📁</div>
+                <span>Projetos</span>
+            </div>
+            <div class="hub-card" data-target="windowSkills">
+                <div class="card-icon">💻</div>
+                <span>Skills</span>
+            </div>
+            <div class="hub-card" data-target="windowInventory">
+                <div class="card-icon">📦</div>
+                <span>Inventário</span>
+            </div>
+            <div class="hub-card" data-target="windowAchievements">
+                <div class="card-icon">🏆</div>
+                <span>Conquistas</span>
+            </div>
+            <div class="hub-card" data-target="windowContact">
+                <div class="card-icon">📞</div>
+                <span>Contato</span>
+            </div>
+            <div class="hub-card" data-target="windowProfile">
+                <div class="card-icon">👤</div>
+                <span>Perfil</span>
+            </div>
+        </div>
+    </div>
 
-            <h3>The Sequence</h3>
+    <!-- 5. JANELAS MODAIS -->
+    <div id="windowProfile" class="window">
+        <div class="window-header">
+            <h2>👤 Perfil do Jogador</h2>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <h3 id="profileName">Felipe</h3>
+            <p>Desenvolvedor focado em criar experiências web interativas.</p>
+        </div>
+    </div>
 
-            <p>Jogo de lógica com fases, pontuação e animações.</p>
+    <div id="windowProjects" class="window">
+        <div class="window-header">
+            <h2>📁 Projetos (Quests)</h2>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div class="project">
+                <h3>Sistema </h3>
+                <p>Gerenciamento de oficinas e cadastros.</p>
+            </div>
+        </div>
+    </div>
 
-            <button>Ver mais</button>
+    <div id="windowSkills" class="window">
+    <div class="window-header">
+        <h2>💻 Árvore de Habilidades</h2>
+        <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content">
+        <p>Pontos de Habilidade Disponíveis: <strong id="skillPoints">0</strong></p>
+        
+        <div class="skill-tree">
+            <div class="skill-node locked" id="skill-html" onclick="unlockSkill('html', 'HTML5 & CSS3')">
+                <span class="skill-icon">🎨</span>
+                <strong>Dominador de Estilos</strong>
+                <small>HTML5 & CSS3</small>
+            </div>
+            
+            <div class="skill-node locked" id="skill-js" onclick="unlockSkill('js', 'JavaScript ES6+')">
+                <span class="skill-icon">⚡</span>
+                <strong>Mago do DOM</strong>
+                <small>JavaScript ES6+</small>
+            </div>
 
+            <div class="skill-node locked" id="skill-api" onclick="unlockSkill('api', 'Consumo de APIs')">
+                <span class="skill-icon">🌐</span>
+                <strong>Invocador de APIs</strong>
+                <small>Fetch & Async/Await</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div id="windowInventory" class="window">
+        <div class="window-header">
+            <h2>📦 Inventário</h2>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <p>Nenhum item equipado.</p>
+        </div>
+    </div>
+
+    <div id="windowAchievements" class="window">
+        <div class="window-header">
+            <h2>🏆 Conquistas</h2>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <p>🥇 Bem-vindo ao MMORPG</p>
+        </div>
+        <div class="window-content">
+            <p>🥇 Derrotou o boss com sucesso</p>
+        </div>
+    </div>
+
+    <div id="windowContact" class="window">
+        <div class="window-header">
+            <h2>📞 Contato</h2>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <p>Email: seuemail@email.com</p>
+        </div>
+    </div>
+
+    <div id="window" class="window">
+        <div class="window-header">
+            <h2>📜 Quadro de Quests (Projetos)</h2>
+            <button class="close-btn">✕</button>
+        </div>
+        <div class="window-content">
+            <div class="project">
+                <div>
+                <strong> Quest 01: Landing Page</strong>
+                <p>Inspecione o repositório para ganhar +50 XP e +20 Gold.</p>
+            </div>
+            <button class="complete-quest-btn" onclick="completeQuest('quest1', 50, 20, 'https://github.com')">Explorar Quest</button>
+            </div>
+        </div>
+    </div>
+
+<!-- JANELA DA MASMORRA & EXPLORAÇÃO -->
+<div id="windowDungeon" class="window">
+    <div class="window-header">
+        <h2>⚔️ Masmorra & Exploração</h2>
+        <button class="close-btn">✕</button>
+    </div>
+    <div class="window-content dungeon-box">
+        <!-- BOTOES DE SELECAO DE INIMIGOS -->
+        <div class="zone-selector">
+            <button onclick="switchZone('normal')">🌲 Buscar Inimigo Aleatório</button>
+            <button onclick="switchZone('boss')" id="bossBtn" style="border-color: #ff0055; color: #ff0055;">🔥 Chefe (Nv. 5+)</button>
         </div>
 
-        <div class="project">
-
-            <h3>Galeria de Mídia</h3>
-
-            <p>Galeria para imagens e vídeos com favoritos.</p>
-
-            <button>Ver mais</button>
-
+        <div class="enemy-card" id="enemyCard">
+            <span class="enemy-icon" id="enemyIcon">👾</span>
+            <strong id="enemyName">Bug de Sintaxe</strong>
+            <div class="hp-bar"><div id="enemyHp" style="width: 100%;"></div></div>
         </div>
 
-        <div class="project">
+        <div id="combatLog">Escolha uma ação para atacar!</div>
 
-            <h3>Project MMORPG</h3>
-
-            <p>Portfólio interativo inspirado em um MMORPG.</p>
-
-            <button>Ver mais</button>
-
+        <div class="dungeon-actions">
+            <button onclick="attackEnemy('code')">💻 Ataque de Código</button>
+            <button onclick="attackEnemy('refactor')">⚡ Refatorar (+Dano)</button>
         </div>
-
     </div>
-
+</div>
+<!-- TOAST DE CONQUISTAS (Canto da Tela) -->
+<div id="achievementToast" class="achievement-toast">
+    <span id="achieveIcon">🏆</span>
+    <div>
+        <strong id="achieveTitle">Conquista Destravada!</strong>
+        <p id="achieveDesc">Você iniciou sua jornada.</p>
+    </div>
 </div>
 
-<div id="windowAbout" class="window">
-
-    <div class="window-header">
-
-        <h2>👤 Sobre</h2>
-
-        <button id="closeAbout">✕</button>
-
-    </div>
-
-    <div class="window-content">
-
-        <p>Olá! Sou Felipe e gosto de desenvolver sites interativos utilizando HTML, CSS e JavaScript.</p>
-
-    </div>
-
+<!-- NPC GUIA ARRASTÁVEL -->
+<div id="npcGuide" class="npc-container">
+    <div class="npc-dialog" id="npcDialog">Clique em mim para dicas de exploração!</div>
+    <div class="npc-avatar">🧙‍♂️</div>
 </div>
 
-<div id="windowInventory" class="window">
-
-    <div class="window-header">
-
-        <h2>📦 Inventário</h2>
-
-        <button id="closeInventory">✕</button>
-
-    </div>
-
-    <div class="window-content">
-
-        <p>Nenhum item encontrado.</p>
-
-    </div>
-
-</div>
-
-<div id="register">
-
-    <div class="register-window">
-
-        <h2>Criar Perfil</h2>
-
-        <input
-            type="text"
-            id="playerName"
-            placeholder="Digite seu nome">
-
-        <button id="start">
-
-            Entrar
-
-        </button>
-
-    </div>
-
-</div>
-
-<div id="hub">
-
-    <div class="hub-card" id="btnProjects">
-
-        📁
-
-        <span>Projetos</span>
-
-    </div>
-
-    <div class="hub-card" id="btnAbout">
-
-        👤
-
-        <span>Sobre</span>
-
-    </div>
-
-    <div class="hub-card" id="btnInventory">
-
-        📦
-
-        <span>Inventário</span>
-
-    </div>
-
-    <div class="hub-card" id="btnSkills">
-
-        💻
-
-        <span>Skills</span>
-
-    </div>
-
-    <div class="hub-card" id="btnContact">
-
-        📞
-
-        <span>Contato</span>
-
-    </div>
-
-</div>
-
-<div id="windowAchievements" class="window">
-
-    <div class="window-header">
-
-        <h2>🏆 Conquistas</h2>
-
-        <button id="closeAchievements">✕</button>
-
-    </div>
-
-    <div class="window-content">
-
-        <p>🥇 Primeiro Projeto</p>
-        <p>🚀 Site Interativo</p>
-        <p>🎮 Project MMORPG</p>
-
-    </div>
-
-</div>
-
-<div id="windowContact" class="window">
-
-    <div class="window-header">
-
-        <h2>📞 Contato</h2>
-
-        <button id="closeContact">✕</button>
-
-    </div>
-
-    <div class="window-content">
-
-        <p>Email: seuemail@email.com</p>
-
-        <button>GitHub</button>
-
-        <button>LinkedIn</button>
-
-    </div>
-
-</div>
-
-<div id="windowSkills" class="window">
-
-    <div class="window-header">
-
-        <h2>💻 Skills</h2>
-
-        <button id="closeSkills">✕</button>
-
-    </div>
-
-    <div class="window-content">
-
-        <p>HTML</p>
-        <p>CSS</p>
-        <p>JavaScript</p>
-
-    </div>
-
-</div>
-
-<div id="hub">
-
-    <div class="hub-card" id="btnProjects">
-        <div style="font-size:60px;">📁</div>
-        <span>Projetos</span>
-    </div>
-
-    <div class="hub-card" id="btnAbout">
-        <div style="font-size:60px;">👤</div>
-        <span>Sobre</span>
-    </div>
-
-    <div class="hub-card" id="btnSkills">
-        <div style="font-size:60px;">💻</div>
-        <span>Skills</span>
-    </div>
-
-    <div class="hub-card" id="btnAchievements">
-        <div style="font-size:60px;">🏆</div>
-        <span>Conquistas</span>
-    </div>
-
-    <div class="hub-card" id="btnContact">
-        <div style="font-size:60px;">📞</div>
-        <span>Contato</span>
-    </div>
-
-</div>
-
-<div class="hub-card" id="btnProjects">
-
-</div>
-
-<script src="js/app.js"></script>
-<script src="js/register.js"></script>
-
-<script>
-
-    const text = document.getElementById("loadingText");
-
-const mensagens = [
-    "Inicializando sistema...",
-    "Carregando interface...",
-    "Gerando mundo...",
-    "Criando inventário...",
-    "Preparando aventura..."
-];
-
-    const button = document.getElementById("start");
-
-button.addEventListener("click", ()=>{
-
-    const nome = document.getElementById("playerName").value;
-
-    if(nome === ""){
-
-        alert("Digite seu nome.");
-
-        return;
-
-    }
-
-    localStorage.setItem("playerName", nome);
-
-    console.log(nome);
-    register.style.display = "none";
-
-hub.style.display = "grid";
-
-});
-
-
-document.getElementById("enter").onclick = () => {
-
-    home.style.display = "none";
-
-    loading.style.display = "flex";
-
-    let progress = 0;
-
-    const timer = setInterval(()=>{
-
-        progress++;
-
-        bar.style.width = progress + "%";
-        percent.innerText = progress + "%";
-
-        if(progress >= 100){
-
-            clearInterval(timer);
-
-            loading.style.display = "none";
-
-            register.style.display = "flex";
-
-        }
-        if(progress == 20)
-    text.innerText = mensagens[1];
-
-if(progress == 40)
-    text.innerText = mensagens[2];
-
-if(progress == 60)
-    text.innerText = mensagens[3];
-
-if(progress == 80)
-    text.innerText = mensagens[4];
-
-    },20);
-
-}
-
-document.getElementById("btnProjects").onclick = () => {
-    document.getElementById("windowProjects").style.display = "block";
-}
-
-document.getElementById("closeProjects").onclick = () => {
-    document.getElementById("windowProjects").style.display = "none";
-}
-const home = document.getElementById("home");
-const loading = document.getElementById("loading");
-const register = document.getElementById("register");
-const bar = document.getElementById("progress");
-const percent = document.getElementById("percent");
-const hub = document.getElementById("hub");
-button.addEventListener("click", ()=>{
-
-    const nome = document.getElementById("playerName").value;
-
-    if(nome === ""){
-        alert("Digite seu nome.");
-        return;
-    }
-
-    localStorage.setItem("playerName", nome);
-
-    register.style.display = "none";
-
-    hub.style.display = "grid";
-
-});
-
-hub.style.display = "grid";
-
-</script>
+    <script src="js/app.js"></script>
 </body>
 </html>
